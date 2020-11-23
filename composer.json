@@ -1,0 +1,28 @@
+{
+  "name": "sfadless/yandex-tracker",
+  "license": "proprietary",
+  "description": "Библиотека для взаимодействия с Яндекс Трекером",
+  "version": "0.0.1-dev",
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Sfadless\\YandexTracker\\" : "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sfadless\\YandexTracker\\Test\\" : "tests/"
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "symfony/http-client" : "^4.4 || ^5.1",
+    "symfony/options-resolver": "^4.4 || ^5.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.0",
+    "symfony/var-dumper": "^4.4 || ^5.1"
+  }
+}
