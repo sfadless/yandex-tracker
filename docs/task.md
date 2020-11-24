@@ -44,3 +44,26 @@ $comment = new AddComment('Текст комментария');
 $taskManager->addComment($task, $comment);
 ```
 
+### Получение комментариев к задаче
+
+```php
+use Sfadless\YandexTracker\Reference\IdReference;
+
+$task = new IdReference('Id_задачи');
+
+$comments = $taskManager->getComments($task);
+```
+
+### Редактирование задачи
+
+```php
+use Sfadless\YandexTracker\Task\Action\EditTask;
+
+$newSummary = 'Новое название';
+$newDescription = 'Новое описание';
+$taskId = 'id_задачи';
+
+$editTask = new EditTask($taskId, $newSummary, $newDescription);
+
+$task = $taskManager->edit($editTask);
+```
