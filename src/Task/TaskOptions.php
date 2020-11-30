@@ -74,6 +74,8 @@ final class TaskOptions
      */
     public const KEY = 'key';
 
+    public const KEYS = 'keys';
+
     /**
      * Версия задачи. Каждое изменение параметров задачи увеличивает номер версии.
      */

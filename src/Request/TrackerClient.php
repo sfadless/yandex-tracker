@@ -88,7 +88,7 @@ final class TrackerClient implements Client
      */
     public function request(string $method, string $path, array $parameters = []): array
     {
-        $options = array_merge(
+        $options = array_merge_recursive(
             [
                 'headers' => [
                     Headers::AUTHORIZATION => 'OAuth ' . $this->authToken,

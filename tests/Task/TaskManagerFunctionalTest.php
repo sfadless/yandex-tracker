@@ -10,6 +10,7 @@ use Sfadless\YandexTracker\Reference\IdReference;
 use Sfadless\YandexTracker\Reference\KeyReference;
 use Sfadless\YandexTracker\Task\Action\AddComment;
 use Sfadless\YandexTracker\Task\Action\EditTask;
+use Sfadless\YandexTracker\Task\Action\SearchTasks;
 use Sfadless\YandexTracker\Task\Comment\Comment;
 use Sfadless\YandexTracker\Task\TaskPriorities;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -140,5 +141,36 @@ final class TaskManagerFunctionalTest extends TaskTestCase
         $editedTask = $this->taskManager->edit($editTask);
 
         $this->assertEquals($editedTask->getPriority()->getKey(), TaskPriorities::CRITICAL);
+    }
+
+    public function testSearch()
+    {
+        $task = $this->createTask(
+            'Название для задачи',
+            'Тестовое описание',
+            getenv('QUEUE_KEY')
+        );
+
+        $taskKey = $task->getKey();
+
+        $search = new SearchTasks([], null, [$taskKey]);
+
+        $tasks = $this->taskManager->search($search);
+
+        $this->assertEquals(1, count($tasks));
+        $this->assertEquals($tasks[0]->getKey(), $taskKey);
+
+        $anotherTask = $this->createTask(
+            'Название для задачи',
+            'Тестовое описание',
+            getenv('QUEUE_KEY')
+        );
+
+        $anotherTaskKey = $anotherTask->getKey();
+
+        $anotherSearch = new SearchTasks([], null, [$taskKey, $anotherTaskKey]);
+        $multiTasks = $this->taskManager->search($anotherSearch);
+
+        $this->assertEquals(2, count($multiTasks));
     }
 }

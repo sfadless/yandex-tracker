@@ -6,6 +6,9 @@ namespace Sfadless\YandexTracker\Task;
 
 use Sfadless\YandexTracker\Exception\ForbiddenException;
 use Sfadless\YandexTracker\Exception\UnauthorizedException;
+use Sfadless\YandexTracker\File\FileFactory;
+use Sfadless\YandexTracker\File\FileManager;
+use Sfadless\YandexTracker\File\FileManagerInterface;
 use Sfadless\YandexTracker\Reference\Id;
 use Sfadless\YandexTracker\Request\Paths;
 use Sfadless\YandexTracker\Request\TrackerClient;
@@ -28,6 +31,16 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
  */
 final class TaskManager implements TaskManagerInterface
 {
+    /**
+     * @var FileManagerInterface
+     */
+    private FileManagerInterface $fileManager;
+
+    /**
+     * @param string $token
+     * @param string $orgId
+     * @return TaskManager
+     */
     public static function createManager(string $token, string $orgId)
     {
         $httpClient = HttpClient::create();
@@ -36,8 +49,14 @@ final class TaskManager implements TaskManagerInterface
 
         $commentFactory = new CommentFactory();
         $taskFactory = new TaskFactory();
+        $fileManager = new FileManager($trackerClient, new FileFactory());
 
-        return new self($trackerClient, $commentFactory, $taskFactory);
+        return new self(
+            $trackerClient,
+            $commentFactory,
+            $taskFactory,
+            $fileManager
+        );
     }
 
     /**
@@ -74,9 +93,29 @@ final class TaskManager implements TaskManagerInterface
         return $this->taskFactory->create($data);
     }
 
+    /**
+     * @param SearchTasks $searchTasks
+     * @return array
+     * @throws ClientExceptionInterface
+     * @throws ForbiddenException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws UnauthorizedException
+     */
     public function search(SearchTasks $searchTasks): array
     {
-        // TODO: Implement search() method.
+        $data = $this->client->post(Paths::TASK_PATH . '_search', [
+            'json' => $searchTasks
+        ]);
+
+        $tasks = [];
+
+        foreach ($data as $item) {
+            $tasks[] = $this->taskFactory->create($item);
+        }
+
+        return $tasks;
     }
 
     /**
@@ -152,16 +191,30 @@ final class TaskManager implements TaskManagerInterface
     }
 
     /**
+     * @return FileManagerInterface
+     */
+    public function getFileManager(): FileManagerInterface
+    {
+        return $this->fileManager;
+    }
+
+    /**
      * TaskManager constructor.
      *
      * @param TrackerClient $client
      * @param CommentFactory $commentFactory
      * @param TaskFactory $taskFactory
+     * @param FileManagerInterface $fileManager
      */
-    public function __construct(TrackerClient $client, CommentFactory $commentFactory, TaskFactory $taskFactory)
-    {
+    public function __construct(
+        TrackerClient $client,
+        CommentFactory $commentFactory,
+        TaskFactory $taskFactory,
+        FileManagerInterface $fileManager
+    ) {
         $this->client = $client;
         $this->commentFactory = $commentFactory;
         $this->taskFactory = $taskFactory;
+        $this->fileManager = $fileManager;
     }
 }

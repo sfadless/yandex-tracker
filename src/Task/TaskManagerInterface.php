@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfadless\YandexTracker\Task;
 
+use Sfadless\YandexTracker\File\FileManagerInterface;
 use Sfadless\YandexTracker\Reference\Id;
 use Sfadless\YandexTracker\Task\Action\AddComment;
 use Sfadless\YandexTracker\Task\Action\CreateTask;
@@ -93,4 +94,9 @@ interface TaskManagerInterface
      * @return int
      */
     public function getCount() : int;
+
+    /**
+     * @return FileManagerInterface
+     */
+    public function getFileManager() : FileManagerInterface;
 }

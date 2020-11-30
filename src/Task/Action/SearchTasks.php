@@ -25,29 +25,42 @@ final class SearchTasks extends Filter
      *
      * @var string
      */
-    private string $expand;
+    private ?string $expand = null;
 
     /**
      * Список ключей задач. Данный параметр не используется вместе с параметрами filter или query.
      * При совместной передаче этих параметров, поиск будет производиться только по keys.
      *
-     * @var string
+     * @var array
      */
-    private string $keys;
+    private array $keys = [];
 
     /**
      *
-     * Очередь. Данный параметр не используется вместе с параметрами filter или quiery. При совместной передаче этих
+     * Очередь. Данный параметр не используется вместе с параметрами filter или query. При совместной передаче этих
      * параметров, поиск будет производиться только по queue.
      *
      * @var StringReference
      */
-    private StringReference $queue;
+    private ?StringReference $queue = null;
+
+    /**
+     * Filter constructor.
+     * @param array $filter
+     * @param string|null $query
+     * @param array $keys
+     */
+    public function __construct(array $filter = [], ?string $query = null, array $keys = [])
+    {
+        parent::__construct($filter, $query);
+
+        $this->keys = $keys;
+    }
 
     /**
      * @return string
      */
-    public function getExpand(): string
+    public function getExpand(): ?string
     {
         return $this->expand;
     }
@@ -63,27 +76,17 @@ final class SearchTasks extends Filter
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getKeys(): string
+    public function getKeys(): array
     {
         return $this->keys;
     }
 
     /**
-     * @param string $keys
-     * @return SearchTasks
-     */
-    public function setKeys(string $keys): SearchTasks
-    {
-        $this->keys = $keys;
-        return $this;
-    }
-
-    /**
      * @return StringReference
      */
-    public function getQueue(): StringReference
+    public function getQueue(): ?StringReference
     {
         return $this->queue;
     }
@@ -104,7 +107,7 @@ final class SearchTasks extends Filter
 
         null === $this->queue ?: $data[TaskOptions::QUEUE] = $this->queue;
         null === $this->expand ?: $data[TaskOptions::EXPAND] = $this->expand;
-        null === $this->keys ?: $data[TaskOptions::QUEUE] = $this->queue;
+        empty($this->keys) ?: $data[TaskOptions::KEYS] = $this->keys;
 
         return $data;
     }

@@ -13,7 +13,7 @@ use Sfadless\YandexTracker\Task\TaskManager;
 $token = "your_api_token_here";
 $orgId = "your_org_id_here";
 
-$taskManager = Sfadless\YandexTracker\Task\TaskManager::createManager($token, $orgId);
+$taskManager = TaskManager::createManager($token, $orgId);
 ```
 
 ### Создание задачи
@@ -28,7 +28,7 @@ $description = "Описание задачи (не обязятельно)";
 
 $taskModel = new CreateTask($summary, new KeyReference($queueKey), $description);
 
-// объект класса Sfadless\YandexTracker\Task\Task
+/** @var $task Sfadless\YandexTracker\Task\Task */
 $task = $taskManager->create($taskModel);
 ```
 
@@ -67,3 +67,28 @@ $editTask = new EditTask($taskId, $newSummary, $newDescription);
 
 $task = $taskManager->edit($editTask);
 ```
+
+### Прикрепление файла к задаче
+```php
+$taskId = 'id_задачи';
+$filePath = 'path/to/file.txt';
+
+/**
+ * @var $fileManager Sfadless\YandexTracker\File\FileManagerInterface
+ */
+$fileManager = $taskManager->getFileManager();
+
+$fileManager->attach(new IdReference($taskId), $filePath);
+```
+
+### Поиск задач по ключу
+```php
+use Sfadless\YandexTracker\Task\Action\SearchTasks;$taskKey = 'ключ_задача';
+$taskKeys = ['Ключ_задачи_1', 'Ключ_задачи_2'];
+
+$search = new SearchTasks([], null, $taskKeys);
+
+/** @var $tasks Sfadless\YandexTracker\Task\Task[] */
+$tasks = $taskManager->search($search);
+```
+
