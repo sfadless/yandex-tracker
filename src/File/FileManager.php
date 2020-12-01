@@ -34,10 +34,26 @@ final class FileManager implements FileManagerInterface
     /**
      * @param Id $task
      * @return array
+     * @throws ClientExceptionInterface
+     * @throws ForbiddenException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws UnauthorizedException
      */
     public function getFiles(Id $task): array
     {
-        return [];
+        $url = Paths::TASK_PATH . '/' . $task->getId() . '/attachments';
+
+        $data = $this->client->get($url);
+
+        $files = [];
+
+        foreach ($data as $item) {
+            $files[] = $this->fileFactory->create($item);
+        }
+
+        return $files;
     }
 
     public function download(Id $task, Id $file, string $filename)

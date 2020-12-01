@@ -173,4 +173,27 @@ final class TaskManagerFunctionalTest extends TaskTestCase
 
         $this->assertEquals(2, count($multiTasks));
     }
+
+    public function testAttachFile()
+    {
+        $task = $this->createTask(
+            'Название для задачи',
+            'Тестовое описание',
+            getenv('QUEUE_KEY')
+        );
+
+        $fileManager = $this->taskManager->getFileManager();
+        $filePath = __DIR__ . '/../File/33.jpg';
+
+        $fileManager->attach($task, $filePath);
+
+        $files = $fileManager->getFiles($task);
+
+        $this->assertEquals(1, count($files));
+        $anotherFile = __DIR__ . '/../File/22.svg';
+        $fileManager->attach($task, $anotherFile);
+
+        $files = $fileManager->getFiles($task);
+        $this->assertEquals(2, count($files));
+    }
 }

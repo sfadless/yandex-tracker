@@ -70,12 +70,12 @@ $task = $taskManager->edit($editTask);
 
 ### Прикрепление файла к задаче
 ```php
+use Sfadless\YandexTracker\Reference\IdReference;
+
 $taskId = 'id_задачи';
 $filePath = 'path/to/file.txt';
 
-/**
- * @var $fileManager Sfadless\YandexTracker\File\FileManagerInterface
- */
+/** @var $fileManager Sfadless\YandexTracker\File\FileManagerInterface */
 $fileManager = $taskManager->getFileManager();
 
 $fileManager->attach(new IdReference($taskId), $filePath);
@@ -92,3 +92,17 @@ $search = new SearchTasks([], null, $taskKeys);
 $tasks = $taskManager->search($search);
 ```
 
+### Получить прикрепленные файлы
+
+```php
+use Sfadless\YandexTracker\File\File;
+use Sfadless\YandexTracker\Reference\IdReference;
+
+$taskId = 'id_задачи';
+
+/** @var $fileManager Sfadless\YandexTracker\File\FileManagerInterface */
+$fileManager = $taskManager->getFileManager();
+
+/** @var $files File[] */
+$files = $fileManager->getFiles(new IdReference($taskId));
+```
