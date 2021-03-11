@@ -93,6 +93,8 @@ final class TaskOptions
 
     public const CREATED_BY = 'createdBy';
 
+    public const ASSIGNEE = 'assignee';
+
     public const COMMENT_WITHOUT_EXTERNAL_MESSAGE_COUNT= 'commentWithoutExternalMessageCount';
 
     public const COMMENT_WITH_EXTERNAL_MESSAGE_COUNT= 'commentWithExternalMessageCount';
