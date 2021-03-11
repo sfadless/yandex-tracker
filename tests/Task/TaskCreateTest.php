@@ -104,7 +104,7 @@ final class TaskCreateTest extends TaskTestCase
     public function testAddComment()
     {
         $comment = new AddComment("Второй комментарий, созданный через Api");
-
-        $this->taskManager->addComment(new IdReference('5fb2c08c3f21ab52fec3d93c'), $comment);
+        $result = $this->taskManager->addComment(new IdReference('TEST-59'), $comment);
+        $this->assertEquals($result->getText(), $comment->getText());
     }
 }

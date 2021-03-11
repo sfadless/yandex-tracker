@@ -36,7 +36,7 @@ final class TaskManagerFunctionalTest extends TaskTestCase
     public function testGetTask()
     {
         $summary = 'Еще одна тестовая задача';
-        $description = 'Описание тестовой залачи';
+        $description = 'Описание тестовой задачи';
         $task = $this->createTask(
             $summary,
             $description,

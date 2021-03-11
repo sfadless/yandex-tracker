@@ -32,6 +32,8 @@ class TaskFactoryTest extends TestCase
         $this->assertEquals($task->getVersion(), 1);
         $this->assertEquals($task->getSummary(), 'Тестовая задача');
         $this->assertEquals($task->getDescription(), 'Тестовая задача, созданая через api');
+        $this->assertEquals($task->getFollowers(), []);
+        $this->assertEquals($task->getAssignee(), null);
         $this->assertInstanceOf(FullReference::class, $task->getType());
     }
     
