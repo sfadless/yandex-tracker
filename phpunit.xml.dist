@@ -9,6 +9,7 @@
         <ini name="error_reporting" value="-1" />
         <env name="API_TOKEN" value="api_token_here"/>
         <env name="ORG_ID" value="org_id_here"/>
+        <env name="QUEUE_KEY" value="queue_key_here"/>
     </php>
 
     <testsuites>

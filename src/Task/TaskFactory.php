@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sfadless\YandexTracker\Task;
 
+use DateTime;
+use Exception;
 use Sfadless\YandexTracker\Reference\FullReference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,6 +16,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class TaskFactory
 {
+    /**
+     * @param array $data
+     * @return Task
+     * @throws Exception
+     */
     public function create(array $data) : Task
     {
         $resolver = new OptionsResolver();
@@ -29,16 +36,24 @@ final class TaskFactory
             ->setDescription($data['description'])
             ->setSummary($data['summary'])
             ->setCreatedBy($this->getEmployee($data['createdBy']))
+            ->setUpdatedBy($this->getEmployee($data['updatedBy']))
+            ->setAssignee($this->getEmployee($data['assignee']))
+            ->setFollowers($this->getEmployeesList($data['followers']))
             ->setStatus($this->getFullReference($data['status']))
             ->setSelfUrl($data[TaskOptions::SELF_URL])
             ->setType($this->getFullReference($data[TaskOptions::TYPE]))
             ->setQueue($this->getFullReference($data[TaskOptions::QUEUE]))
             ->setPriority($this->getFullReference($data[TaskOptions::PRIORITY]))
+            ->setCreatedAt(new DateTime($data["createdAt"]))
+            ->setUpdatedAt(new DateTime($data["updatedAt"]))
         ;
 
         return $task;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     private function configureResolver(OptionsResolver $resolver)
     {
         $resolver
@@ -56,6 +71,8 @@ final class TaskFactory
                 TaskOptions::PRIORITY,
                 TaskOptions::CREATED_AT,
                 TaskOptions::CREATED_BY,
+                TaskOptions::FOLLOWERS,
+                TaskOptions::ASSIGNEE,
                 TaskOptions::COMMENT_WITHOUT_EXTERNAL_MESSAGE_COUNT,
                 TaskOptions::VOTES,
                 TaskOptions::COMMENT_WITH_EXTERNAL_MESSAGE_COUNT,
@@ -64,16 +81,42 @@ final class TaskFactory
                 TaskOptions::STATUS,
                 TaskOptions::FAVORITE
             ])
+            ->setDefaults([
+                TaskOptions::FOLLOWERS => [],
+                TaskOptions::ASSIGNEE => null,
+            ]);
         ;
     }
 
+    /**
+     * @param array $data
+     * @return FullReference
+     */
     private function getFullReference(array $data) : FullReference
     {
         return new FullReference($data['id'], $data['key'], $data['display'], $data['self']);
     }
 
-    private function getEmployee(array $data) : Employee
+    /**
+     * @param array|null $data
+     * @return Employee|null
+     */
+    private function getEmployee(?array $data) : ?Employee
     {
-        return new Employee($data['id'], $data['self'], $data['display']);
+        return (is_null($data)) ? null : new Employee($data['id'], $data['self'], $data['display']);
+    }
+
+    /**
+     * @param array $data
+     * @return Employee[]
+     */
+    private function getEmployeesList(array $data) : array
+    {
+        $result = [];
+        foreach ($data as $employee) {
+            $result[] =  new Employee($employee['id'], $employee['self'], $employee['display']);
+        }
+
+        return $result;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfadless\YandexTracker\Task;
 
+use DateTime;
 use Sfadless\YandexTracker\Reference\AssociatedReference;
 use Sfadless\YandexTracker\Reference\IdKeyReference;
 use Sfadless\YandexTracker\Reference\KeyReference;
@@ -36,6 +37,21 @@ class Task extends IdKeyReference
     private Employee $createdBy;
 
     /**
+     * @var Employee|null
+     */
+    private ?Employee $updatedBy;
+
+    /**
+     * @var Employee[]
+     */
+    private array $followers;
+
+    /**
+     * @var Employee|null
+     */
+    private ?Employee $assignee;
+
+    /**
      * @var AssociatedReference
      */
     private AssociatedReference $queue;
@@ -54,6 +70,16 @@ class Task extends IdKeyReference
      * @var AssociatedReference
      */
     private AssociatedReference $priority;
+
+    /**
+     * @var DateTime
+     */
+    private DateTime $createdAt;
+
+    /**
+     * @var DateTime
+     */
+    private DateTime $updatedAt;
 
     /**
      * Task constructor.
@@ -122,6 +148,60 @@ class Task extends IdKeyReference
     public function setCreatedBy(Employee $createdBy): Task
     {
         $this->createdBy = $createdBy;
+        return $this;
+    }
+
+    /**
+     * @return Employee|null
+     */
+    public function getUpdatedBy(): ?Employee
+    {
+        return $this->updatedBy;
+    }
+
+    /**
+     * @param Employee|null $updatedBy
+     * @return Task
+     */
+    public function setUpdatedBy(?Employee $updatedBy): Task
+    {
+        $this->updatedBy = $updatedBy;
+        return $this;
+    }
+
+    /**
+     * @return Employee[]
+     */
+    public function getFollowers(): array
+    {
+        return $this->followers;
+    }
+
+    /**
+     * @param Employee[] $followers
+     * @return Task
+     */
+    public function setFollowers(array $followers): Task
+    {
+        $this->followers = $followers;
+        return $this;
+    }
+
+    /**
+     * @return Employee|null
+     */
+    public function getAssignee(): ?Employee
+    {
+        return $this->assignee;
+    }
+
+    /**
+     * @param Employee|null $assignee
+     * @return Task
+     */
+    public function setAssignee(?Employee $assignee): Task
+    {
+        $this->assignee = $assignee;
         return $this;
     }
 
@@ -198,7 +278,43 @@ class Task extends IdKeyReference
         return $this;
     }
 
-    public function jsonSerialize()
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     * @return Task
+     */
+    public function setCreatedAt(DateTime $createdAt): Task
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param DateTime $updatedAt
+     * @return Task
+     */
+    public function setUpdatedAt(DateTime $updatedAt): Task
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), [
             TaskOptions::TYPE => $this->type,

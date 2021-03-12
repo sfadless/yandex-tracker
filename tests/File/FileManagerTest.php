@@ -29,11 +29,7 @@ final class FileManagerTest extends TestCase
         $fileName = '33.jpg';
         $file = __DIR__ . '/' . $fileName;
 
-//        new B
-        #key: "CHECK-2590"
-        #id: "5fbd1017a461b1287d236ddc"
-
-        $file = $this->fileManager->attach(new IdReference('5fbd1017a461b1287d236ddc'), $file);
+        $file = $this->fileManager->attach(new IdReference('TEST-59'), $file);
 
         dump($file);
         $this->assertEquals($file->getName(), $fileName);
