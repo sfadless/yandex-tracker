@@ -40,6 +40,7 @@ final class TaskFactory
             ->setAssignee($this->getEmployee($data['assignee']))
             ->setFollowers($this->getEmployeesList($data['followers']))
             ->setStatus($this->getFullReference($data['status']))
+            ->setResolution($this->getFullReference($data['resolution']))
             ->setSelfUrl($data[TaskOptions::SELF_URL])
             ->setType($this->getFullReference($data[TaskOptions::TYPE]))
             ->setQueue($this->getFullReference($data[TaskOptions::QUEUE]))
@@ -79,11 +80,24 @@ final class TaskFactory
                 TaskOptions::QUEUE,
                 TaskOptions::UPDATED_AT,
                 TaskOptions::STATUS,
-                TaskOptions::FAVORITE
+                TaskOptions::FAVORITE,
+                TaskOptions::SPRINT,
+                TaskOptions::BOARDS,
+                TaskOptions::PREVIOUS_STATUS,
+                TaskOptions::RESOLUTION,
+                TaskOptions::RESOLVED_AT,
+                TaskOptions::RESOLVED_BY,
             ])
             ->setDefaults([
+                TaskOptions::DESCRIPTION => null,
                 TaskOptions::FOLLOWERS => [],
                 TaskOptions::ASSIGNEE => null,
+                TaskOptions::SPRINT => null,
+                TaskOptions::PREVIOUS_STATUS => null,
+                TaskOptions::RESOLUTION => null,
+                TaskOptions::RESOLVED_AT => null,
+                TaskOptions::RESOLVED_BY => null,
+                TaskOptions::BOARDS => [],
             ]);
         ;
     }
