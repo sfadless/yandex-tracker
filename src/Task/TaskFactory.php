@@ -103,12 +103,12 @@ final class TaskFactory
     }
 
     /**
-     * @param array $data
-     * @return FullReference
+     * @param array|null $data
+     * @return FullReference|null
      */
-    private function getFullReference(array $data) : FullReference
+    private function getFullReference(?array $data) : ?FullReference
     {
-        return new FullReference($data['id'], $data['key'], $data['display'], $data['self']);
+        return (is_null($data)) ? null : new FullReference($data['id'], $data['key'], $data['display'], $data['self']);
     }
 
     /**
