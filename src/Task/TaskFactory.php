@@ -98,6 +98,8 @@ final class TaskFactory
                 TaskOptions::RESOLVED_AT => null,
                 TaskOptions::RESOLVED_BY => null,
                 TaskOptions::BOARDS => [],
+                TaskOptions::PREVIOUS_STATUS_LAST_ASSIGNEE => [],
+                TaskOptions::LAST_COMMENT_UPDATED_AT => [],
             ]);
         ;
     }

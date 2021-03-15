@@ -103,9 +103,13 @@ final class TaskOptions
      */
     public const ASSIGNEE = 'assignee';
 
+    public const PREVIOUS_STATUS_LAST_ASSIGNEE = 'previousStatusLastAssignee';
+
     public const COMMENT_WITHOUT_EXTERNAL_MESSAGE_COUNT= 'commentWithoutExternalMessageCount';
 
     public const COMMENT_WITH_EXTERNAL_MESSAGE_COUNT= 'commentWithExternalMessageCount';
+
+    public const LAST_COMMENT_UPDATED_AT= 'lastCommentUpdatedAt';
 
     public const VOTES = 'votes';
 
