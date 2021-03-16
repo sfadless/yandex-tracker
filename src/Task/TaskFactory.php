@@ -87,6 +87,10 @@ final class TaskFactory
                 TaskOptions::RESOLUTION,
                 TaskOptions::RESOLVED_AT,
                 TaskOptions::RESOLVED_BY,
+                TaskOptions::VOTED_BY,
+                TaskOptions::CHECK_LIST_TOTAL,
+                TaskOptions::CHECK_LIST_ITEMS,
+                TaskOptions::CHECK_LIST_DONE,
             ])
             ->setDefaults([
                 TaskOptions::DESCRIPTION => null,
@@ -100,6 +104,10 @@ final class TaskFactory
                 TaskOptions::BOARDS => [],
                 TaskOptions::PREVIOUS_STATUS_LAST_ASSIGNEE => [],
                 TaskOptions::LAST_COMMENT_UPDATED_AT => [],
+                TaskOptions::VOTED_BY => null,
+                TaskOptions::CHECK_LIST_TOTAL => null,
+                TaskOptions::CHECK_LIST_ITEMS => [],
+                TaskOptions::CHECK_LIST_DONE => null,
             ]);
         ;
     }

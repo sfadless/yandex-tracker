@@ -132,4 +132,12 @@ final class TaskOptions
     public const PREVIOUS_STATUS = 'previousStatus';
 
     public const RESOLUTION = 'resolution';
+
+    public const CHECK_LIST_DONE = 'checklistDone';
+
+    public const CHECK_LIST_ITEMS = 'checklistItems';
+
+    public const CHECK_LIST_TOTAL = 'checklistTotal';
+
+    public const VOTED_BY = 'votedBy';
 }
