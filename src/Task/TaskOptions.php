@@ -55,6 +55,11 @@ final class TaskOptions
     public const SPRINT = 'sprint';
 
     /**
+     * Блок с информацией о досках.
+     */
+    public const BOARDS = 'boards';
+
+    /**
      * Родительская задача.
      */
     public const PARENT = 'parent';
@@ -93,17 +98,46 @@ final class TaskOptions
 
     public const CREATED_BY = 'createdBy';
 
+    /**
+     * Исполнитель
+     */
     public const ASSIGNEE = 'assignee';
+
+    public const PREVIOUS_STATUS_LAST_ASSIGNEE = 'previousStatusLastAssignee';
 
     public const COMMENT_WITHOUT_EXTERNAL_MESSAGE_COUNT= 'commentWithoutExternalMessageCount';
 
     public const COMMENT_WITH_EXTERNAL_MESSAGE_COUNT= 'commentWithExternalMessageCount';
 
+    public const LAST_COMMENT_UPDATED_AT= 'lastCommentUpdatedAt';
+
     public const VOTES = 'votes';
 
     public const UPDATED_AT = 'updatedAt';
 
+    /**
+     * Дата закрытия
+     */
+    public const RESOLVED_AT = 'resolvedAt';
+
+    /**
+     * Закрывший сотрудник
+     */
+    public const RESOLVED_BY = 'resolvedBy';
+
     public const FAVORITE = 'favorite';
 
     public const STATUS = 'status';
+
+    public const PREVIOUS_STATUS = 'previousStatus';
+
+    public const RESOLUTION = 'resolution';
+
+    public const CHECK_LIST_DONE = 'checklistDone';
+
+    public const CHECK_LIST_ITEMS = 'checklistItems';
+
+    public const CHECK_LIST_TOTAL = 'checklistTotal';
+
+    public const VOTED_BY = 'votedBy';
 }

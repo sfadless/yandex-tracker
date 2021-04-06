@@ -27,7 +27,7 @@ class Task extends IdKeyReference
     private string $summary;
 
     /**
-     * @var string
+     * @var string|null
      */
     private ?string $description = null;
 
@@ -60,6 +60,11 @@ class Task extends IdKeyReference
      * @var AssociatedReference
      */
     private AssociatedReference $status;
+
+    /**
+     * @var ?AssociatedReference
+     */
+    private ?AssociatedReference $resolution = null;
 
     /**
      * @var AssociatedReference
@@ -116,7 +121,7 @@ class Task extends IdKeyReference
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getDescription(): ?string
     {
@@ -124,10 +129,10 @@ class Task extends IdKeyReference
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      * @return Task
      */
-    public function setDescription(string $description): Task
+    public function setDescription(?string $description): Task
     {
         $this->description = $description;
         return $this;
@@ -220,6 +225,24 @@ class Task extends IdKeyReference
     public function setStatus(AssociatedReference $status): Task
     {
         $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return AssociatedReference|null
+     */
+    public function getResolution(): ?AssociatedReference
+    {
+        return $this->resolution;
+    }
+
+    /**
+     * @param AssociatedReference|null $resolution
+     * @return Task
+     */
+    public function setResolution(?AssociatedReference $resolution): Task
+    {
+        $this->resolution = $resolution;
         return $this;
     }
 
