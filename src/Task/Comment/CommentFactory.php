@@ -30,6 +30,8 @@ final class CommentFactory
         $this->configureResolver($resolver);
         $data = $resolver->resolve($data);
 
+        dump($data);
+
         $createdBy = $this->createEmployee($data[CommentOptions::CREATED_BY]);
 
         $updatedBy = $data[CommentOptions::CREATED_BY]['id'] === $data[CommentOptions::UPDATED_BY]['id']
@@ -68,7 +70,9 @@ final class CommentFactory
                 CommentOptions::CREATED_AT,
                 CommentOptions::VERSION,
                 CommentOptions::TRANSPORT,
-                CommentOptions::TYPE
+                CommentOptions::TYPE,
+                CommentOptions::EMAIL,
+                CommentOptions::EXTERNAL,
             ])
             ->setAllowedTypes(CommentOptions::SELF_URL, 'string')
             ->setAllowedTypes(CommentOptions::ID, ['string', 'int'])
@@ -79,7 +83,7 @@ final class CommentFactory
             ->setAllowedTypes(CommentOptions::CREATED_AT, 'string')
             ->setAllowedTypes(CommentOptions::UPDATED_AT, 'string')
             ->setAllowedTypes(CommentOptions::VERSION, 'int')
-            ->setAllowedValues(CommentOptions::TYPE, [CommentTypes::STANDARD, CommentTypes::INCOMING, CommentTypes::UOTCOMING])
+            ->setAllowedValues(CommentOptions::TYPE, [CommentTypes::STANDARD, CommentTypes::INCOMING, CommentTypes::OUTCOMING, CommentTypes::OUTGOING])
             ->setAllowedValues(CommentOptions::TRANSPORT, [CommentTransports::INTERNAL, CommentTransports::EMAIL])
         ;
     }

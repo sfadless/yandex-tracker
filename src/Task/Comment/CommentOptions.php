@@ -32,4 +32,8 @@ final class CommentOptions
     public const TYPE = 'type';
 
     public const TRANSPORT = 'transport';
+
+    public const EMAIL = 'email';
+
+    public const EXTERNAL = 'external';
 }
