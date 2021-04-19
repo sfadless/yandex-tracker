@@ -24,5 +24,7 @@ final class CommentTypes
     /**
      * Создан из исходящего письма
      */
-    public const UOTCOMING = 'outcoming';
+    public const OUTCOMING = 'outcoming';
+
+    public const OUTGOING = 'outgoing';
 }
