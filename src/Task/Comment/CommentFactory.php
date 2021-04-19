@@ -30,8 +30,6 @@ final class CommentFactory
         $this->configureResolver($resolver);
         $data = $resolver->resolve($data);
 
-        dump($data);
-
         $createdBy = $this->createEmployee($data[CommentOptions::CREATED_BY]);
 
         $updatedBy = $data[CommentOptions::CREATED_BY]['id'] === $data[CommentOptions::UPDATED_BY]['id']
