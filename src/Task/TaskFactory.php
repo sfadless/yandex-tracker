@@ -17,15 +17,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class TaskFactory
 {
     /**
-     * @param array $data
-     * @return Task
      * @throws Exception
      */
     public function create(array $data) : Task
     {
         $resolver = new OptionsResolver();
 
-        $this->configureResolver($resolver);
+        $this->configureResolver($resolver, $data);
 
         $data = $resolver->resolve($data);
 
@@ -52,11 +50,31 @@ final class TaskFactory
         return $task;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
-    private function configureResolver(OptionsResolver $resolver)
+    private function configureResolver(OptionsResolver $resolver, array $defaults = []): void
     {
+        $resolver->setDefaults(
+            array_merge(
+                [
+                    TaskOptions::DESCRIPTION => null,
+                    TaskOptions::FOLLOWERS => [],
+                    TaskOptions::ASSIGNEE => null,
+                    TaskOptions::SPRINT => null,
+                    TaskOptions::PREVIOUS_STATUS => null,
+                    TaskOptions::RESOLUTION => null,
+                    TaskOptions::RESOLVED_AT => null,
+                    TaskOptions::RESOLVED_BY => null,
+                    TaskOptions::BOARDS => [],
+                    TaskOptions::PREVIOUS_STATUS_LAST_ASSIGNEE => [],
+                    TaskOptions::LAST_COMMENT_UPDATED_AT => [],
+                    TaskOptions::VOTED_BY => null,
+                    TaskOptions::CHECK_LIST_TOTAL => null,
+                    TaskOptions::CHECK_LIST_ITEMS => [],
+                    TaskOptions::CHECK_LIST_DONE => null,
+                ],
+                $defaults
+            )
+        );
+
         $resolver
             ->setDefined([
                 TaskOptions::ID,
@@ -91,47 +109,21 @@ final class TaskFactory
                 TaskOptions::CHECK_LIST_TOTAL,
                 TaskOptions::CHECK_LIST_ITEMS,
                 TaskOptions::CHECK_LIST_DONE,
-            ])
-            ->setDefaults([
-                TaskOptions::DESCRIPTION => null,
-                TaskOptions::FOLLOWERS => [],
-                TaskOptions::ASSIGNEE => null,
-                TaskOptions::SPRINT => null,
-                TaskOptions::PREVIOUS_STATUS => null,
-                TaskOptions::RESOLUTION => null,
-                TaskOptions::RESOLVED_AT => null,
-                TaskOptions::RESOLVED_BY => null,
-                TaskOptions::BOARDS => [],
-                TaskOptions::PREVIOUS_STATUS_LAST_ASSIGNEE => [],
-                TaskOptions::LAST_COMMENT_UPDATED_AT => [],
-                TaskOptions::VOTED_BY => null,
-                TaskOptions::CHECK_LIST_TOTAL => null,
-                TaskOptions::CHECK_LIST_ITEMS => [],
-                TaskOptions::CHECK_LIST_DONE => null,
             ]);
         ;
     }
 
-    /**
-     * @param array|null $data
-     * @return FullReference|null
-     */
     private function getFullReference(?array $data) : ?FullReference
     {
         return (is_null($data)) ? null : new FullReference($data['id'], $data['key'], $data['display'], $data['self']);
     }
 
-    /**
-     * @param array|null $data
-     * @return Employee|null
-     */
     private function getEmployee(?array $data) : ?Employee
     {
         return (is_null($data)) ? null : new Employee($data['id'], $data['self'], $data['display']);
     }
 
     /**
-     * @param array $data
      * @return Employee[]
      */
     private function getEmployeesList(array $data) : array
