@@ -65,43 +65,29 @@ final class SearchTasks extends Filter
         return $this->expand;
     }
 
-    /**
-     * @param string $expand
-     * @return SearchTasks
-     */
     public function setExpand(string $expand): SearchTasks
     {
         $this->expand = $expand;
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getKeys(): array
     {
         return $this->keys;
     }
 
-    /**
-     * @return StringReference
-     */
     public function getQueue(): ?StringReference
     {
         return $this->queue;
     }
 
-    /**
-     * @param StringReference $queue
-     * @return SearchTasks
-     */
     public function setQueue(StringReference $queue): SearchTasks
     {
         $this->queue = $queue;
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize() : array
     {
         $data = parent::jsonSerialize();
 

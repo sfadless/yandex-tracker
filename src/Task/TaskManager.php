@@ -31,9 +31,6 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
  */
 final class TaskManager implements TaskManagerInterface
 {
-    /**
-     * @var FileManagerInterface
-     */
     private FileManagerInterface $fileManager;
 
     /**
@@ -142,8 +139,6 @@ final class TaskManager implements TaskManagerInterface
     }
 
     /**
-     * @param EditTask $task
-     * @return Task
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface

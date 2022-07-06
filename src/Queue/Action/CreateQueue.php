@@ -15,42 +15,13 @@ use Sfadless\YandexTracker\Reference\StringReference;
  */
 final class CreateQueue implements \JsonSerializable
 {
-    /**
-     * @var string
-     */
     private string $key;
-
-    /**
-     * @var string
-     */
     private string $name;
-
-    /**
-     * @var Reference
-     */
     private Reference $lead;
-
-    /**
-     * @var Reference
-     */
     private Reference $defaultType;
-
-    /**
-     * @var Reference
-     */
     private Reference $defaultPriority;
+    private array $issueTypesConfig = [];
 
-    /**
-     * @var array
-     */
-    private array $issueTypesConfig;
-
-    /**
-     * CreateQueue constructor.
-     * @param string $key
-     * @param string $name
-     * @param Reference $lead
-     */
     public function __construct(string $key, string $name, Reference $lead)
     {
         $this->key = $key;

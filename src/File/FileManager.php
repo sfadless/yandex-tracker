@@ -21,14 +21,8 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
  */
 final class FileManager implements FileManagerInterface
 {
-    /**
-     * @var TrackerClient
-     */
     private TrackerClient $client;
 
-    /**
-     * @var FileFactory
-     */
     private FileFactory $fileFactory;
 
     /**
@@ -62,10 +56,6 @@ final class FileManager implements FileManagerInterface
     }
 
     /**
-     * @param Id $task
-     * @param string $file
-     * @param string|null $name
-     * @return File
      * @throws ForbiddenException
      * @throws UnauthorizedException
      * @throws ClientExceptionInterface

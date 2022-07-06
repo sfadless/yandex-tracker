@@ -26,10 +26,7 @@ final class Employee extends IdReference
         $this->display = $display;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize() : array
     {
         return [
             'self' => $this->selfUrl,

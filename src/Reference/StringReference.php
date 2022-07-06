@@ -13,24 +13,14 @@ namespace Sfadless\YandexTracker\Reference;
  */
 class StringReference implements Reference
 {
-    /**
-     * @var string
-     */
     private string $name;
 
-    /**
-     * StringReference constructor.
-     * @param string $name
-     */
     public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @return mixed|string
-     */
-    public function jsonSerialize()
+    public function jsonSerialize() : array
     {
         return $this->name;
     }

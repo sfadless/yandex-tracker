@@ -13,10 +13,6 @@ final class TrackerFactory
 {
     /**
      * TODO
-     *
-     * @param string $token
-     * @param string $organizationId
-     * @return Tracker
      */
     public static function create(string $token, string $organizationId) : Tracker
     {
