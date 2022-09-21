@@ -20,29 +20,14 @@ use Sfadless\YandexTracker\Task\TaskOptions;
  */
 final class CreateTask implements JsonSerializable
 {
-    /**
-     * @var string
-     */
     private string $summary;
 
-    /**
-     * @var string
-     */
     private ?string $description;
 
-    /**
-     * @var KeyReference
-     */
     private KeyReference $queue;
 
-    /**
-     * @var Reference
-     */
     private ?Reference $type = null;
 
-    /**
-     * @var Reference
-     */
     private ?Reference $parent = null;
 
     /**
@@ -50,9 +35,6 @@ final class CreateTask implements JsonSerializable
      */
     private array $sprints = [];
 
-    /**
-     * @var Reference
-     */
     private ?Reference $priority = null;
 
     /**
@@ -60,143 +42,97 @@ final class CreateTask implements JsonSerializable
      */
     private array $followers = [];
 
-    /**
-     * @var string|null
-     */
     private ?string $unique = null;
 
-    /**
-     * CreateTask constructor.
-     *
-     * @param string $summary
-     * @param KeyReference $queue
-     * @param string $description
-     * @param Reference $sprint
-     */
+    private array $additionalOptions = [];
+
     public function __construct(
         string $summary,
         KeyReference $queue,
         ?string $description = null,
-        ?Reference $sprint = null
+        ?Reference $sprint = null,
+        array $additionalOptions = []
     ) {
         $this->summary = $summary;
         $this->queue = $queue;
+        $this->additionalOptions = $additionalOptions;
 
         null === $sprint ?: $this->sprints[] = $sprint;
         $this->description = $description;
     }
 
-    /**
-     * @return array
-     */
     public function getSprints() : array
     {
         return $this->sprints;
     }
 
-    /**
-     * @param Reference $sprint
-     * @return CreateTask
-     */
-    public function addSprint(Reference $sprint)
+    public function addSprint(Reference $sprint): CreateTask
     {
         $this->sprints[] = $sprint;
 
         return $this;
     }
 
-    /**
-     * @return Reference
-     */
     public function getType(): Reference
     {
         return $this->type;
     }
 
-    /**
-     * @param Reference $type
-     * @return CreateTask
-     */
     public function setType(Reference $type): CreateTask
     {
         $this->type = $type;
         return $this;
     }
 
-    /**
-     * @return Reference
-     */
     public function getParent(): Reference
     {
         return $this->parent;
     }
 
-    /**
-     * @param Reference $parent
-     * @return CreateTask
-     */
     public function setParent(Reference $parent): CreateTask
     {
         $this->parent = $parent;
         return $this;
     }
 
-    /**
-     * @return Reference
-     */
     public function getPriority(): Reference
     {
         return $this->priority;
     }
 
-    /**
-     * @param Reference $follower
-     * @return $this
-     */
-    public function addFollower(Reference $follower)
+    public function addFollower(Reference $follower): CreateTask
     {
         $this->followers[] = $follower;
 
         return $this;
     }
 
-    /**
-     * @param Reference $priority
-     * @return CreateTask
-     */
     public function setPriority(Reference $priority): CreateTask
     {
         $this->priority = $priority;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUnique(): ?string
     {
         return $this->unique;
     }
 
-    /**
-     * @param string|null $unique
-     * @return CreateTask
-     */
     public function setUnique(?string $unique): CreateTask
     {
         $this->unique = $unique;
         return $this;
     }
 
-    /**
-     * @return array|mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
-        $data = [
-            TaskOptions::SUMMARY => $this->summary,
-            TaskOptions::QUEUE => $this->queue
-        ];
+        $data = [];
+        foreach ($this->additionalOptions as $option => $value) {
+            $data[$option] = $value;
+        }
+
+        $data[TaskOptions::SUMMARY] = $this->summary;
+        $data[TaskOptions::QUEUE] = $this->queue;
 
         null === $this->description ?: $data[TaskOptions::DESCRIPTION] = $this->description;
         null === $this->parent ?: $data[TaskOptions::PARENT] = $this->parent;

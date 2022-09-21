@@ -140,4 +140,13 @@ final class TaskOptions
     public const CHECK_LIST_TOTAL = 'checklistTotal';
 
     public const VOTED_BY = 'votedBy';
+
+    public const EMAIL_FROM = 'emailFrom';
+
+    public const EMAIL_TO = 'emailTo';
+
+    /**
+     * Копия (список email-ов)
+     */
+    public const EMAIL_CC = 'emailCc';
 }
