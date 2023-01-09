@@ -37,7 +37,7 @@ final class FileManager implements FileManagerInterface
      */
     public function getFiles(Id $task): array
     {
-        $url = Paths::TASK_PATH . '/' . $task->getId() . '/attachments';
+        $url = Paths::TASK_PATH . $task->getId() . '/attachments';
 
         $data = $this->client->get($url);
 
