@@ -23,15 +23,16 @@ interface FileManagerInterface
     public function getFiles(Id $task) : array;
 
     /**
+     * Получить информацию о прикрепленном файле
+     */
+    public function getFileData(Id $task, Id $file) : File;
+
+    /**
      * Скачать файл
      *
      * https://yandex.ru/dev/connect/tracker/api/concepts/issues/get-attachment.html
-     *
-     * @return mixed
      */
-    public function download(Id $task, Id $file, string $filename);
-
-    public function getFile(string $url);
+    public function download(Id $task, Id $file): FileResponse;
 
     /**
      * Прикрепить файл

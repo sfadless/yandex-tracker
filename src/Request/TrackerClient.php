@@ -84,7 +84,7 @@ final class TrackerClient implements Client
      * @throws TransportExceptionInterface
      * @throws UnauthorizedException
      */
-    public function get(string $url, array $parameters = [], bool $json = null)
+    public function get(string $url, array $parameters = [], bool $json = true)
     {
         return $this->request('GET', $url, $parameters, $json);
     }

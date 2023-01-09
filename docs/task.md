@@ -106,3 +106,40 @@ $fileManager = $taskManager->getFileManager();
 /** @var $files File[] */
 $files = $fileManager->getFiles(new IdReference($taskId));
 ```
+
+### Получить информацию о прикрепленном файле
+
+```php
+use Sfadless\YandexTracker\File\File;
+use Sfadless\YandexTracker\Reference\IdReference;
+use Sfadless\YandexTracker\File\FileManagerInterface;
+
+$taskId = 'id_задачи';
+$fileId = 'id_файла';
+
+/** @var $fileManager FileManagerInterface */
+$fileManager = $taskManager->getFileManager();
+
+/** @var $fileData File */
+$fileData = $fileManager->getFileData(new IdReference($taskId), new IdReference($fileId));
+```
+
+### Скачать прикрепленный файл
+
+```php
+use Sfadless\YandexTracker\File\FileResponse;
+use Sfadless\YandexTracker\Reference\IdReference;
+use Sfadless\YandexTracker\File\FileManagerInterface;
+
+$taskId = 'id_задачи';
+$fileId = 'id_файла';
+
+/** @var $fileManager FileManagerInterface */
+$fileManager = $taskManager->getFileManager();
+
+/** @var $file FileResponse */
+$file = $fileManager->download(new IdReference($taskId), new IdReference($fileId));
+
+header ("content-type: {$file->getContentType()}");
+echo $file->getSource();
+```
