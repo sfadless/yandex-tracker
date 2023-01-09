@@ -20,19 +20,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 final class TrackerClient implements Client
 {
-    /**
-     * @var HttpClientInterface
-     */
     private HttpClientInterface $client;
-
-    /**
-     * @var string
-     */
     private string $authToken;
-
-    /**
-     * @var string
-     */
     private string $organizationId;
 
     public function __construct(HttpClientInterface $client, string $authToken, string $organizationId)
@@ -43,9 +32,6 @@ final class TrackerClient implements Client
     }
 
     /**
-     * @param string $url
-     * @param array $parameters
-     * @return mixed
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface
@@ -59,9 +45,6 @@ final class TrackerClient implements Client
     }
 
     /**
-     * @param string $url
-     * @param array $parameters
-     * @return array
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface
@@ -75,10 +58,6 @@ final class TrackerClient implements Client
     }
 
     /**
-     * @param string $method
-     * @param string $path
-     * @param array $parameters
-     * @return array
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface
@@ -86,7 +65,7 @@ final class TrackerClient implements Client
      * @throws TransportExceptionInterface
      * @throws UnauthorizedException
      */
-    public function request(string $method, string $path, array $parameters = []): array
+    public function request(string $method, string $path, array $parameters = [])
     {
         $options = array_merge_recursive(
             [
@@ -129,9 +108,6 @@ final class TrackerClient implements Client
     }
 
     /**
-     * @param string $url
-     * @param array $parameters
-     * @return array
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface
@@ -142,5 +118,26 @@ final class TrackerClient implements Client
     public function patch(string $url, array $parameters = [])
     {
         return $this->request('PATCH', $url, $parameters);
+    }
+
+
+    public function testRequest(string $method, string $path, array $parameters = [])
+    {
+        $options = array_merge_recursive(
+            [
+                'headers' => [
+                    Headers::AUTHORIZATION => 'OAuth ' . $this->authToken,
+                    Headers::X_ORG_ID => $this->organizationId
+                ]
+            ]
+        );
+
+        $response = $this->client->request(
+            $method,
+            $path,
+            $options
+        );
+
+        return $response->getContent();
     }
 }

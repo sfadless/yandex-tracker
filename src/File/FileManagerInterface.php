@@ -31,6 +31,8 @@ interface FileManagerInterface
      */
     public function download(Id $task, Id $file, string $filename);
 
+    public function getFile(string $url);
+
     /**
      * Прикрепить файл
      *

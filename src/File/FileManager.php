@@ -63,6 +63,19 @@ final class FileManager implements FileManagerInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
+    public function getFile(string $url)
+    {
+        return $this->client->testRequest("GET", $url);
+    }
+
+    /**
+     * @throws ForbiddenException
+     * @throws UnauthorizedException
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     public function attach(Id $task, string $file, ?string $name = null) : File
     {
         $url = Paths::TASK_PATH . $task->getId() . '/attachments';

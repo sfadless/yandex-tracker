@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfadless\YandexTracker\Task;
 
+use Exception;
 use Sfadless\YandexTracker\Exception\ForbiddenException;
 use Sfadless\YandexTracker\Exception\UnauthorizedException;
 use Sfadless\YandexTracker\File\FileFactory;
@@ -32,13 +33,11 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 final class TaskManager implements TaskManagerInterface
 {
     private FileManagerInterface $fileManager;
+    private TrackerClient $client;
+    private CommentFactory $commentFactory;
+    private TaskFactory $taskFactory;
 
-    /**
-     * @param string $token
-     * @param string $orgId
-     * @return TaskManager
-     */
-    public static function createManager(string $token, string $orgId)
+    public static function createManager(string $token, string $orgId): TaskManager
     {
         $httpClient = HttpClient::create();
 
@@ -56,24 +55,20 @@ final class TaskManager implements TaskManagerInterface
         );
     }
 
-    /**
-     * @var TrackerClient
-     */
-    private TrackerClient $client;
+    public function __construct(
+        TrackerClient $client,
+        CommentFactory $commentFactory,
+        TaskFactory $taskFactory,
+        FileManagerInterface $fileManager
+    ) {
+        $this->client = $client;
+        $this->commentFactory = $commentFactory;
+        $this->taskFactory = $taskFactory;
+        $this->fileManager = $fileManager;
+    }
 
     /**
-     * @var CommentFactory
-     */
-    private CommentFactory $commentFactory;
-
-    /**
-     * @var TaskFactory
-     */
-    private TaskFactory $taskFactory;
-
-    /**
-     * @param CreateTask $task
-     * @return Task
+     * @throws Exception
      * @throws ForbiddenException
      * @throws UnauthorizedException
      * @throws ClientExceptionInterface
@@ -91,8 +86,7 @@ final class TaskManager implements TaskManagerInterface
     }
 
     /**
-     * @param SearchTasks $searchTasks
-     * @return array
+     * @throws Exception
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface
@@ -116,8 +110,7 @@ final class TaskManager implements TaskManagerInterface
     }
 
     /**
-     * @param Id $task
-     * @return Comment[]
+     * @throws Exception
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface
@@ -155,11 +148,14 @@ final class TaskManager implements TaskManagerInterface
         return $this->taskFactory->create($data);
     }
 
-    public function getCount(): int
-    {
-        // TODO: Implement getCount() method.
-    }
-
+    /**
+     * @throws ClientExceptionInterface
+     * @throws ForbiddenException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws UnauthorizedException
+     */
     public function addComment(Id $task, AddComment $comment): Comment
     {
         $url = Paths::TASK_PATH . $task->getId() . '/comments';
@@ -169,8 +165,7 @@ final class TaskManager implements TaskManagerInterface
     }
 
     /**
-     * @param Id $task
-     * @return Task
+     * @throws Exception
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface
@@ -193,23 +188,9 @@ final class TaskManager implements TaskManagerInterface
         return $this->fileManager;
     }
 
-    /**
-     * TaskManager constructor.
-     *
-     * @param TrackerClient $client
-     * @param CommentFactory $commentFactory
-     * @param TaskFactory $taskFactory
-     * @param FileManagerInterface $fileManager
-     */
-    public function __construct(
-        TrackerClient $client,
-        CommentFactory $commentFactory,
-        TaskFactory $taskFactory,
-        FileManagerInterface $fileManager
-    ) {
-        $this->client = $client;
-        $this->commentFactory = $commentFactory;
-        $this->taskFactory = $taskFactory;
-        $this->fileManager = $fileManager;
+    public function getCount(): int
+    {
+        // TODO: Implement getCount() method.
+        return 0;
     }
 }
