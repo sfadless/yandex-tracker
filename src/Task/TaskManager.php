@@ -162,7 +162,7 @@ final class TaskManager implements TaskManagerInterface
 
     public function addComment(Id $task, AddComment $comment): Comment
     {
-        $url = Paths::TASK_PATH . '/'. $task->getId() . '/comments';
+        $url = Paths::TASK_PATH . $task->getId() . '/comments';
         $result = $this->client->post($url, ['json' => $comment]);
 
         return $this->commentFactory->create($result);
