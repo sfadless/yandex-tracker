@@ -39,9 +39,54 @@ final class TrackerClient implements Client
      * @throws TransportExceptionInterface
      * @throws UnauthorizedException
      */
-    public function get(string $url, array $parameters = [])
+    public function request(string $method, string $path, array $parameters = [], bool $json = true)
     {
-        return $this->request('GET', $url, $parameters);
+        $options = array_merge_recursive(
+            [
+                'headers' => [
+                    Headers::AUTHORIZATION => 'OAuth ' . $this->authToken,
+                    Headers::X_ORG_ID => $this->organizationId
+                ]
+            ],
+            $parameters
+        );
+
+        $response = $this->client->request(
+            $method,
+            Paths::BASE_PATH . $path,
+            $options
+        );
+
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode >= 200 && $statusCode < 300) {
+            return $json ? json_decode($response->getContent(), true) : $response->getContent();
+        }
+
+        if (403 === $statusCode) {
+            throw new ForbiddenException();
+        }
+
+        if (401 === $statusCode) {
+            $content = json_decode($response->getContent(false), true);
+
+            throw new UnauthorizedException($content['errorMessages'][0]);
+        }
+
+        throw new RuntimeException($response->getStatusCode() . ' ' . $response->getContent(false));
+    }
+
+    /**
+     * @throws ClientExceptionInterface
+     * @throws ForbiddenException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws UnauthorizedException
+     */
+    public function get(string $url, array $parameters = [], bool $json = null)
+    {
+        return $this->request('GET', $url, $parameters, $json);
     }
 
     /**
@@ -65,79 +110,13 @@ final class TrackerClient implements Client
      * @throws TransportExceptionInterface
      * @throws UnauthorizedException
      */
-    public function request(string $method, string $path, array $parameters = [])
-    {
-        $options = array_merge_recursive(
-            [
-                'headers' => [
-                    Headers::AUTHORIZATION => 'OAuth ' . $this->authToken,
-                    Headers::X_ORG_ID => $this->organizationId
-                ]
-            ],
-            $parameters
-        );
-
-        $response = $this->client->request(
-            $method,
-            Paths::BASE_PATH . $path,
-            $options
-        );
-
-        $statusCode = $response->getStatusCode();
-
-        if ($statusCode >= 200 && $statusCode < 300) {
-            return json_decode($response->getContent(), true);
-        }
-
-        if (403 === $statusCode) {
-            throw new ForbiddenException();
-        }
-
-        if (401 === $statusCode) {
-            $content = json_decode($response->getContent(false), true);
-
-            throw new UnauthorizedException($content['errorMessages'][0]);
-        }
-
-        throw new RuntimeException($response->getStatusCode() . ' ' . $response->getContent(false));
-    }
-
-    public function delete(string $url, array $parameters = [])
-    {
-        // TODO: Implement delete() method.
-    }
-
-    /**
-     * @throws ClientExceptionInterface
-     * @throws ForbiddenException
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     * @throws UnauthorizedException
-     */
     public function patch(string $url, array $parameters = [])
     {
         return $this->request('PATCH', $url, $parameters);
     }
 
-
-    public function testRequest(string $method, string $path, array $parameters = [])
+    public function delete(string $url, array $parameters = [])
     {
-        $options = array_merge_recursive(
-            [
-                'headers' => [
-                    Headers::AUTHORIZATION => 'OAuth ' . $this->authToken,
-                    Headers::X_ORG_ID => $this->organizationId
-                ]
-            ]
-        );
-
-        $response = $this->client->request(
-            $method,
-            $path,
-            $options
-        );
-
-        return $response->getContent();
+        // TODO: Implement delete() method.
     }
 }
