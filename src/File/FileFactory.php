@@ -28,7 +28,7 @@ final class FileFactory
             ->setCreatedAt(new DateTimeImmutable($data['createdAt']))
             ->setSize($data['size'])
             ->setMimetype($data['mimetype'])
-            ->setThumbnail($data['thumbnail'])
+            ->setThumbnail($data['thumbnail'] ?? null)
         ;
 
         return $file;
