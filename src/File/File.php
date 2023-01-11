@@ -97,4 +97,14 @@ final class File extends IdReference
         $this->createdAt = $createdAt;
         return $this;
     }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            "id" => $this->getId(),
+            "name" => $this->getName(),
+            "contentType" => $this->getMimetype(),
+            "size" => $this->getSize(),
+        ];
+    }
 }
