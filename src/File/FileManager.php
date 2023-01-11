@@ -83,6 +83,18 @@ final class FileManager implements FileManagerInterface
         return new FileResponse($fileData->getName(), $fileData->getMimetype(), $source);
     }
 
+    public function remove(Id $task, Id $file): bool
+    {
+        try {
+            $url = Paths::TASK_PATH . $task->getId() . '/attachments/' . $file->getId();
+            $this->client->delete($url);
+
+            return true;
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
     /**
      * @throws ForbiddenException
      * @throws UnauthorizedException

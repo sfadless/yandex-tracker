@@ -40,4 +40,11 @@ interface FileManagerInterface
      * https://yandex.ru/dev/connect/tracker/api/concepts/issues/post-attachment.html/
      */
     public function attach(Id $task, string $file, ?string $name = null);
+
+    /**
+     * Удалить файл
+     *
+     * https://cloud.yandex.ru/docs/tracker/concepts/issues/delete-attachment
+     */
+    public function remove(Id $task, Id $file): bool;
 }

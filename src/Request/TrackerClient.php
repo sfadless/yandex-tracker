@@ -115,8 +115,16 @@ final class TrackerClient implements Client
         return $this->request('PATCH', $url, $parameters);
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws ForbiddenException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws UnauthorizedException
+     */
     public function delete(string $url, array $parameters = [])
     {
-        // TODO: Implement delete() method.
+        return $this->request('DELETE', $url, $parameters);
     }
 }
