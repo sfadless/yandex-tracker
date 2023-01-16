@@ -3,7 +3,7 @@
 
 ### Конфигурация
 
-Для работы с трекером необходит токен и id организации. Более подробно: https://yandex.ru/dev/connect/tracker/api/concepts/access.html
+Для работы с трекером необходим токен и id организации. Более подробно: https://yandex.ru/dev/connect/tracker/api/concepts/access.html
 
 Работа с задачами реализована в классе Sfadless\YandexTracker\Task\TaskManager
 
