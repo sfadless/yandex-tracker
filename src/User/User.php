@@ -52,8 +52,8 @@ final class User extends Employee implements JsonSerializable
         $this->useNewFilters = $data["useNewFilters"] ?? false;
         $this->disableNotifications = $data["disableNotifications"] ?? false;
         $this->welcomeMailSent = $data["welcomeMailSent"] ?? false;
-        $this->firstLoginDate = $data["firstLoginDate"] ? new DateTime($data["firstLoginDate"]) : null;
-        $this->lastLoginDate = $data["lastLoginDate"] ? new DateTime($data["lastLoginDate"]) : null;
+        $this->firstLoginDate = isset($data["firstLoginDate"]) ? new DateTime($data["firstLoginDate"]) : null;
+        $this->lastLoginDate = isset($data["lastLoginDate"]) ? new DateTime($data["lastLoginDate"]) : null;
     }
 
     public function getLogin(): ?string
