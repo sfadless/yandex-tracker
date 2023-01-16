@@ -13,7 +13,7 @@ use Sfadless\YandexTracker\Reference\Traits\SelfUrlTrait;
  *
  * @author Pavel Golikov <pgolikov327@gmail.com>
  */
-final class Employee extends IdReference
+class Employee extends IdReference
 {
     use SelfUrlTrait;
     use DisplayTrait;
