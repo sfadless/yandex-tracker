@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sfadless\YandexTracker\File;
 
+use DateTimeImmutable;
+use Exception;
 use Sfadless\YandexTracker\Task\Employee;
 
 /**
@@ -13,6 +15,9 @@ use Sfadless\YandexTracker\Task\Employee;
  */
 final class FileFactory
 {
+    /**
+     * @throws Exception
+     */
     public function create(array $data) : File
     {
         $file = new File($data['id'], $data['name'], $data['content']);
@@ -20,6 +25,10 @@ final class FileFactory
         $file
             ->setSelfUrl($data['self'])
             ->setCreatedBy($this->getEmployee($data['createdBy']))
+            ->setCreatedAt(new DateTimeImmutable($data['createdAt']))
+            ->setSize($data['size'])
+            ->setMimetype($data['mimetype'])
+            ->setThumbnail($data['thumbnail'] ?? null)
         ;
 
         return $file;

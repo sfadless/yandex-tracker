@@ -11,7 +11,7 @@ namespace Sfadless\YandexTracker\Request;
  */
 interface Client
 {
-    public function get(string $url, array $parameters = []);
+    public function get(string $url, array $parameters = [], bool $json = true);
 
     public function post(string $url, array $parameters = []);
 

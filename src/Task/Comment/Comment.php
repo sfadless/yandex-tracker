@@ -30,5 +30,6 @@ final class Comment
         $this->type = $commentDTO->getType();
         $this->transport = $commentDTO->getTransport();
         $this->selfUrl = $commentDTO->getSelfUrl();
+        $this->email = $commentDTO->getEmail();
     }
 }

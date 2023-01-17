@@ -13,16 +13,8 @@ namespace Sfadless\YandexTracker\Reference;
  */
 class IdReference implements Id
 {
-    /**
-     * @var string
-     */
     protected string $id;
 
-    /**
-     * IdReference constructor.
-     *
-     * @param string $id
-     */
     public function __construct(string $id)
     {
         $this->id = $id;
@@ -33,10 +25,7 @@ class IdReference implements Id
         return $this->id;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return ['id' => $this->id];
     }

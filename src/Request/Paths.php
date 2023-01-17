@@ -19,4 +19,6 @@ final class Paths
      * Создать задачу
      */
     public const TASK_PATH = '/v2/issues/';
+
+    public const USERS_PATH = '/v2/users/';
 }

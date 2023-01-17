@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfadless\YandexTracker\File;
 
+use Exception;
 use Sfadless\YandexTracker\Exception\ForbiddenException;
 use Sfadless\YandexTracker\Exception\UnauthorizedException;
 use Sfadless\YandexTracker\Reference\Id;
@@ -26,8 +27,6 @@ final class FileManager implements FileManagerInterface
     private FileFactory $fileFactory;
 
     /**
-     * @param Id $task
-     * @return array
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface
@@ -50,9 +49,50 @@ final class FileManager implements FileManagerInterface
         return $files;
     }
 
-    public function download(Id $task, Id $file, string $filename)
+    /**
+     * @throws ClientExceptionInterface
+     * @throws ForbiddenException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws UnauthorizedException
+     * @throws Exception
+     */
+    public function getFileData(Id $task, Id $file): File
     {
-        // TODO: Implement download() method.
+        $url = Paths::TASK_PATH . $task->getId() . '/attachments/' . $file->getId();
+        $data = $this->client->get($url);
+
+        return  $this->fileFactory->create($data);
+    }
+
+    /**
+     * @throws ClientExceptionInterface
+     * @throws ForbiddenException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws UnauthorizedException
+     */
+    public function download(Id $task, Id $file): FileResponse
+    {
+        $fileData = $this->getFileData($task, $file);
+        $url = Paths::TASK_PATH . $task->getId() . '/attachments/' . $file->getId() . '/' . $fileData->getName();
+        $source = $this->client->get($url, [], false);
+
+        return new FileResponse($fileData->getName(), $fileData->getMimetype(), $source);
+    }
+
+    public function remove(Id $task, Id $file): bool
+    {
+        try {
+            $url = Paths::TASK_PATH . $task->getId() . '/attachments/' . $file->getId();
+            $this->client->delete($url);
+
+            return true;
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
     /**

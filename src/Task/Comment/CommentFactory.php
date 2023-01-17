@@ -6,6 +6,7 @@ namespace Sfadless\YandexTracker\Task\Comment;
 
 use DateTimeImmutable;
 use Exception;
+use Sfadless\YandexTracker\Task\Email;
 use Sfadless\YandexTracker\Task\Employee;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,9 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class CommentFactory
 {
     /**
-     * @param array $data
-     *
-     * @return Comment
      * @throws Exception
      */
     public function create(array $data) : Comment
@@ -37,6 +35,11 @@ final class CommentFactory
             : $this->createEmployee($data[CommentOptions::UPDATED_BY])
         ;
 
+        $email = null;
+        if (!empty($data[CommentOptions::EMAIL])) {
+            $email = Email::fromResponse($data[CommentOptions::EMAIL]);
+        }
+
         $commentDTO
             ->setId((string) $data[CommentOptions::ID])
             ->setSelfUrl($data[CommentOptions::SELF_URL])
@@ -49,12 +52,13 @@ final class CommentFactory
             ->setVersion($data[CommentOptions::VERSION])
             ->setType($data[CommentOptions::TYPE])
             ->setTransport($data[CommentOptions::TRANSPORT])
+            ->setEmail($email)
         ;
 
         return new Comment($commentDTO);
     }
 
-    private function configureResolver(OptionsResolver $resolver)
+    private function configureResolver(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefined([
@@ -86,10 +90,6 @@ final class CommentFactory
         ;
     }
 
-    /**
-     * @param array $data
-     * @return Employee
-     */
     private function createEmployee(array $data) : Employee
     {
         return new Employee($data['id'], $data['self'], $data['display']);

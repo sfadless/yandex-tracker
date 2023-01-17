@@ -20,19 +20,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 final class TrackerClient implements Client
 {
-    /**
-     * @var HttpClientInterface
-     */
     private HttpClientInterface $client;
-
-    /**
-     * @var string
-     */
     private string $authToken;
-
-    /**
-     * @var string
-     */
     private string $organizationId;
 
     public function __construct(HttpClientInterface $client, string $authToken, string $organizationId)
@@ -43,9 +32,6 @@ final class TrackerClient implements Client
     }
 
     /**
-     * @param string $url
-     * @param array $parameters
-     * @return mixed
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface
@@ -53,40 +39,7 @@ final class TrackerClient implements Client
      * @throws TransportExceptionInterface
      * @throws UnauthorizedException
      */
-    public function get(string $url, array $parameters = [])
-    {
-        return $this->request('GET', $url, $parameters);
-    }
-
-    /**
-     * @param string $url
-     * @param array $parameters
-     * @return array
-     * @throws ClientExceptionInterface
-     * @throws ForbiddenException
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     * @throws UnauthorizedException
-     */
-    public function post(string $url, array $parameters = [])
-    {
-        return $this->request('POST', $url, $parameters);
-    }
-
-    /**
-     * @param string $method
-     * @param string $path
-     * @param array $parameters
-     * @return array
-     * @throws ClientExceptionInterface
-     * @throws ForbiddenException
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     * @throws UnauthorizedException
-     */
-    public function request(string $method, string $path, array $parameters = []): array
+    public function request(string $method, string $path, array $parameters = [], bool $json = true)
     {
         $options = array_merge_recursive(
             [
@@ -107,7 +60,7 @@ final class TrackerClient implements Client
         $statusCode = $response->getStatusCode();
 
         if ($statusCode >= 200 && $statusCode < 300) {
-            return json_decode($response->getContent(), true);
+            return $json ? json_decode($response->getContent(), true) : $response->getContent();
         }
 
         if (403 === $statusCode) {
@@ -123,15 +76,33 @@ final class TrackerClient implements Client
         throw new RuntimeException($response->getStatusCode() . ' ' . $response->getContent(false));
     }
 
-    public function delete(string $url, array $parameters = [])
+    /**
+     * @throws ClientExceptionInterface
+     * @throws ForbiddenException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws UnauthorizedException
+     */
+    public function get(string $url, array $parameters = [], bool $json = true)
     {
-        // TODO: Implement delete() method.
+        return $this->request('GET', $url, $parameters, $json);
     }
 
     /**
-     * @param string $url
-     * @param array $parameters
-     * @return array
+     * @throws ClientExceptionInterface
+     * @throws ForbiddenException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws UnauthorizedException
+     */
+    public function post(string $url, array $parameters = [])
+    {
+        return $this->request('POST', $url, $parameters);
+    }
+
+    /**
      * @throws ClientExceptionInterface
      * @throws ForbiddenException
      * @throws RedirectionExceptionInterface
@@ -142,5 +113,18 @@ final class TrackerClient implements Client
     public function patch(string $url, array $parameters = [])
     {
         return $this->request('PATCH', $url, $parameters);
+    }
+
+    /**
+     * @throws ClientExceptionInterface
+     * @throws ForbiddenException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws UnauthorizedException
+     */
+    public function delete(string $url, array $parameters = [])
+    {
+        return $this->request('DELETE', $url, $parameters);
     }
 }
