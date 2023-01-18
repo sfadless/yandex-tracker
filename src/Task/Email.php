@@ -138,7 +138,7 @@ final class Email
             ->setText($response['text'] ?? '')
             ->setFrom($response['info']['from'])
             ->setTo($response['info']['to'])
-            ->setCc($response['info']['cc'])
+            ->setCc($response['info']['cc'] ?? [])
             ->setFrom($response['info']['from'] ?? [])
             ->setStatus($response['status'])
             ->setError($response['error'])
