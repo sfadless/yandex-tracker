@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sfadless\YandexTracker\Queue;
 
 use Sfadless\YandexTracker\Queue\Action\CreateQueue;
+use Sfadless\YandexTracker\Reference\IdReference;
 use Sfadless\YandexTracker\Reference\Reference;
 use Sfadless\YandexTracker\Request\Client;
 use Sfadless\YandexTracker\Request\Paths;
@@ -16,16 +17,8 @@ use Sfadless\YandexTracker\Request\Paths;
  */
 final class QueueManager implements QueueManagerInterface
 {
-    /**
-     * @var Client
-     */
     private Client $client;
 
-    /**
-     * QueueManager constructor.
-     *
-     * @param Client $client
-     */
     public function __construct(Client $client)
     {
         $this->client = $client;
@@ -33,9 +26,6 @@ final class QueueManager implements QueueManagerInterface
 
     /**
      * Создать очередь
-     *
-     * @param CreateQueue $createQueue
-     * @return Queue
      */
     public function create(CreateQueue $createQueue) : Queue
     {
@@ -48,15 +38,17 @@ final class QueueManager implements QueueManagerInterface
 
     /**
      * Получить параметры очереди
-     *
-     * @param Reference $reference
-     * @return Queue
      */
     public function getParameters(Reference $reference) : Queue
     {
         $data = $this->client->get(Paths::QUEUE_PATH . $reference->getId(), []);
 
         return QueueFactory::createFromArray($data);
+    }
+
+    public function getTags(IdReference $queue): array
+    {
+        return $this->client->get(Paths::QUEUE_PATH . $queue->getId() . '/tags', []);
     }
 
     /**

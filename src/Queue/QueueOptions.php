@@ -117,4 +117,14 @@ final class QueueOptions
      * TODO Добавить описание
      */
     public const ALLOW_EXTRA_MAILING = 'allowExternalMailing';
+
+    /**
+     * TODO Добавить описание
+     */
+    public const ADD_ISSUE_KEY_IN_EMAIL = 'addIssueKeyInEmail';
+
+    /**
+     * TODO Добавить описание
+     */
+    public const WORK_FLOW_ACTIONS_STYLE = 'workflowActionsStyle';
 }
