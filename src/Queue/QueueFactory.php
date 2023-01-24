@@ -59,7 +59,9 @@ final class QueueFactory
                 QueueOptions::ISSUE_TYPES_CONFIG,
                 QueueOptions::WORKFLOWS,
                 QueueOptions::VERSIONS,
-                QueueOptions::ISSUE_TYPES
+                QueueOptions::ISSUE_TYPES,
+                QueueOptions::ADD_ISSUE_KEY_IN_EMAIL,
+                QueueOptions::WORK_FLOW_ACTIONS_STYLE,
             ])
         ;
     }
