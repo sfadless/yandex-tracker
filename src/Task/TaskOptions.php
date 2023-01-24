@@ -34,6 +34,11 @@ final class TaskOptions
     public const TYPE = 'type';
 
     /**
+     * Теги задачи
+     */
+    public const TAGS = 'tags';
+
+    /**
      * Приоритет задачи.
      */
     public const PRIORITY = 'priority';
