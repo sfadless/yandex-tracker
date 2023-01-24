@@ -40,7 +40,7 @@ final class TaskFactory
             ->setStatus($this->getFullReference($data['status']))
             ->setResolution($this->getFullReference($data['resolution']))
             ->setSelfUrl($data[TaskOptions::SELF_URL])
-            ->setTags($data[TaskOptions::TAGS])
+            ->setTags($data[TaskOptions::TAGS] ?? [])
             ->setType($this->getFullReference($data[TaskOptions::TYPE]))
             ->setQueue($this->getFullReference($data[TaskOptions::QUEUE]))
             ->setPriority($this->getFullReference($data[TaskOptions::PRIORITY]))
