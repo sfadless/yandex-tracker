@@ -24,9 +24,6 @@ final class QueueManager implements QueueManagerInterface
         $this->client = $client;
     }
 
-    /**
-     * Создать очередь
-     */
     public function create(CreateQueue $createQueue) : Queue
     {
         $data = $this->client->post(Paths::QUEUE_PATH, [
@@ -36,9 +33,6 @@ final class QueueManager implements QueueManagerInterface
         return QueueFactory::createFromArray($data);
     }
 
-    /**
-     * Получить параметры очереди
-     */
     public function getParameters(Reference $reference) : Queue
     {
         $data = $this->client->get(Paths::QUEUE_PATH . $reference->getId(), []);
@@ -51,11 +45,6 @@ final class QueueManager implements QueueManagerInterface
         return $this->client->get(Paths::QUEUE_PATH . $queue->getId() . '/tags', []);
     }
 
-    /**
-     * Получить список очередей
-     *
-     * @return Queue[]
-     */
     public function getList() : array
     {
         $data = $this->client->get(Paths::QUEUE_PATH);
