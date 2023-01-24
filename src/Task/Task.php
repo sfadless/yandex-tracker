@@ -26,6 +26,7 @@ class Task extends IdKeyReference
     private Employee $createdBy;
     private ?Employee $updatedBy;
     private array $followers;
+    private array $tags = [];
     private ?Employee $assignee;
 
     private AssociatedReference $queue;
@@ -65,6 +66,17 @@ class Task extends IdKeyReference
     public function setDescription(?string $description): Task
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    public function setTags(array $tags): Task
+    {
+        $this->tags = $tags;
         return $this;
     }
 
