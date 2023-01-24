@@ -19,41 +19,21 @@ use Sfadless\YandexTracker\Task\TaskOptions;
  */
 final class EditTask implements JsonSerializable, Id
 {
-    /**
-     * @var string
-     */
     private string $id;
-
-    /**
-     * @var string|null
-     */
     private ?string $summary;
-
-    /**
-     * @var string|null
-     */
     private ?string $description;
-
-    /**
-     * @var AssociatedReference|null
-     */
+    private array $additionalOptions;
     private ?AssociatedReference $type;
-
-    /**
-     * @var AssociatedReference|null
-     */
     private ?AssociatedReference $priority;
 
-    /**
-     * EditTask constructor.
-     * @param string $id
-     * @param string|null $summary
-     * @param string|null $description
-     * @param AssociatedReference|null $type
-     * @param AssociatedReference|null $priority
-     */
-    public function __construct(string $id, ?string $summary = null, ?string $description = null, ?AssociatedReference $type = null, ?AssociatedReference $priority = null)
-    {
+    public function __construct(
+        string $id,
+        ?string $summary = null,
+        ?string $description = null,
+        ?AssociatedReference $type = null,
+        ?AssociatedReference $priority = null,
+        array $additionalOptions = []
+    ) {
         if (
             null === $summary
             && null === $description
@@ -68,54 +48,40 @@ final class EditTask implements JsonSerializable, Id
         $this->type = $type;
         $this->priority = $priority;
         $this->id = $id;
+        $this->additionalOptions = $additionalOptions;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSummary(): ?string
     {
         return $this->summary;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @return AssociatedReference|null
-     */
     public function getType(): ?AssociatedReference
     {
         return $this->type;
     }
 
-    /**
-     * @return AssociatedReference|null
-     */
     public function getPriority(): ?AssociatedReference
     {
         return $this->priority;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $data = [];
+        foreach ($this->additionalOptions as $option => $value) {
+            $data[$option] = $value;
+        }
 
         null === $this->description ?: $data[TaskOptions::DESCRIPTION] = $this->description;
         null === $this->summary ?: $data[TaskOptions::SUMMARY] = $this->summary;

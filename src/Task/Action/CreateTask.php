@@ -21,20 +21,11 @@ use Sfadless\YandexTracker\Task\TaskOptions;
 final class CreateTask implements JsonSerializable
 {
     private string $summary;
-
     private ?string $description;
-
     private KeyReference $queue;
-
     private ?Reference $type = null;
-
     private ?Reference $parent = null;
-
-    /**
-     * @var Reference[]
-     */
     private array $sprints = [];
-
     private ?Reference $priority = null;
 
     /**
