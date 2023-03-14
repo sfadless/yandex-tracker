@@ -26,6 +26,8 @@ final class CommentFactory
         $resolver = new OptionsResolver();
 
         $this->configureResolver($resolver);
+
+        $resolver->setDefined(array_keys($data));
         $data = $resolver->resolve($data);
 
         $createdBy = $this->createEmployee($data[CommentOptions::CREATED_BY]);
