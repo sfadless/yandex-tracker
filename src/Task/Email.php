@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Sfadless\YandexTracker\Task;
 
-/**
- * Class Email
- * @author Alexander Srokin <alexander.srokin@gmail.com>
- */
 final class Email
 {
     private ?string $subject = null;
@@ -17,7 +13,7 @@ final class Email
     private ?array $cc = [];
     private ?string $status = null;
     private ?string $error = null;
-    private ?string $hideTextInComments = null;
+    private ?bool $hideTextInComments = null;
     private array $addrInvalid = [];
     private array $addrUnsent = [];
 
@@ -98,12 +94,12 @@ final class Email
         return $this;
     }
 
-    public function getHideTextInComments(): ?string
+    public function getHideTextInComments(): ?bool
     {
         return $this->hideTextInComments;
     }
 
-    public function setHideTextInComments(?string $hideTextInComments): Email
+    public function setHideTextInComments(?bool $hideTextInComments): Email
     {
         $this->hideTextInComments = $hideTextInComments;
         return $this;
